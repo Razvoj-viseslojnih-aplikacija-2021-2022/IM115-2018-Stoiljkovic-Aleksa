@@ -2,6 +2,9 @@ package rpp_projekat.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 
@@ -23,6 +26,7 @@ public class Smer implements Serializable {
 
 	//bi-directional many-to-one association to Grupa
 	@OneToMany(mappedBy="smer")
+	@JsonIgnore
 	private List<Grupa> grupas;
 
 	public Smer() {

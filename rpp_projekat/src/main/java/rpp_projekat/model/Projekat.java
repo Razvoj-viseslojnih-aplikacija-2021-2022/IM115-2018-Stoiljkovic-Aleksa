@@ -2,6 +2,9 @@ package rpp_projekat.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 
@@ -25,6 +28,7 @@ public class Projekat implements Serializable {
 
 	//bi-directional many-to-one association to Student
 	@OneToMany(mappedBy="projekat")
+	@JsonIgnore
 	private List<Student> students;
 
 	public Projekat() {
