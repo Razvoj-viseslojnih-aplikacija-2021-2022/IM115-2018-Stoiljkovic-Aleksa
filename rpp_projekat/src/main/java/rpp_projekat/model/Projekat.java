@@ -18,6 +18,8 @@ public class Projekat implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="PROJEKAT_ID_GENERATOR", sequenceName="PROJEKAT_SEQ", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PROJEKAT_ID_GENERATOR")
 	private Integer id;
 
 	private String naziv;
@@ -27,8 +29,9 @@ public class Projekat implements Serializable {
 	private String oznaka;
 
 	//bi-directional many-to-one association to Student
-	@OneToMany(mappedBy="projekat")
 	@JsonIgnore
+	@OneToMany(mappedBy="projekat", cascade = {CascadeType.ALL})
+	
 	private List<Student> students;
 
 	public Projekat() {

@@ -27,6 +27,10 @@ public class ProjekatService {
 		return projekatRepository.findByNazivContainingIgnoreCase(naziv);
 	}
 	
+	public List<Projekat> findByOznakaContainingIgnoreCase(String oznaka) {
+		return projekatRepository.findByOznakaContainingIgnoreCase(oznaka);
+	}
+	
 	public Projekat save(Projekat projekat) {
 		return projekatRepository.save(projekat);
 	}

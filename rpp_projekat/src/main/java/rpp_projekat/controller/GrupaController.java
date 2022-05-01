@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
 import rpp_projekat.model.Grupa;
+import rpp_projekat.model.Student;
 import rpp_projekat.service.GrupaService;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -26,12 +29,17 @@ public class GrupaController {
 	@Autowired
 	private GrupaService grupaService;
 	
+	@Autowired
+	private JdbcTemplate jdbctemplate;
+	
+	@ApiOperation(value = "Returns list of all Grupas")
 	@GetMapping("grupa")
 	public ResponseEntity<List<Grupa>> getAll() {
 		List<Grupa> grupas = grupaService.getAll();
 	return new ResponseEntity<>(grupas, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Returns Grupa with id that was forwarded as path variable.")
 	@GetMapping("grupa/{id}")
 	public ResponseEntity<Grupa> getOne(@PathVariable("id") Integer id) {
 		if (grupaService.findById(id).isPresent()) {
@@ -42,6 +50,14 @@ public class GrupaController {
 		}
 	}
 	
+	@ApiOperation(value = "Returns list of Grupas containing string that was forwarded as path variable in 'oznaka'.")
+	@GetMapping("grupa/oznaka/{oznaka}")
+	public ResponseEntity<List<Grupa>> getByOznaka(@PathVariable("oznaka") String oznaka) {
+			List<Grupa> grupas = grupaService.findByOznakaContainingIgnoreCase(oznaka);
+		return new ResponseEntity<>(grupas, HttpStatus.OK);	
+	}
+	
+	@ApiOperation(value = "Adds new Grupa to database.")
 	@PostMapping("grupa")
 	public ResponseEntity<Grupa> addGrupa(@RequestBody Grupa grupa) {
 		Grupa savedGrupa = grupaService.save(grupa);
@@ -49,6 +65,7 @@ public class GrupaController {
 		return ResponseEntity.created(location).body(savedGrupa);
 	}
 	
+	@ApiOperation(value = "Updates Grupa that has id that was forwarded as path variable with values forwarded in Request Body.")
 	@PutMapping(value = "grupa/{id}")
 	public ResponseEntity<Grupa> updateGrupa(@RequestBody Grupa grupa, @PathVariable("id") Integer id) {
 		if (grupaService.existsById(id)) {
@@ -59,6 +76,7 @@ public class GrupaController {
 	    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
+	@ApiOperation(value = "Deletes Grupa with id that was forwarded as path variable.")
 	@DeleteMapping("grupa/{id}")
 	public ResponseEntity<HttpStatus> delete(@PathVariable Integer id) {
 		if (grupaService.existsById(id)) {

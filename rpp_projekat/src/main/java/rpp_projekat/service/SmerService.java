@@ -27,6 +27,10 @@ public class SmerService {
 		return smerRepository.findByNazivContainingIgnoreCase(naziv);
 	}
 	
+	public List<Smer> findByOznakaContainingIgnoreCase(String oznaka) {
+		return smerRepository.findByOznakaContainingIgnoreCase(oznaka);
+	}
+	
 	public Smer save(Smer smer) {
 		return smerRepository.save(smer);
 	}

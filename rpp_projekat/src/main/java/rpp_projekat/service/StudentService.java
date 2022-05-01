@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rpp_projekat.model.Grupa;
 import rpp_projekat.model.Student;
 import rpp_projekat.repository.StudentRepository;
 
@@ -19,6 +20,8 @@ public class StudentService {
 		return studentRepository.findAll();
 	}
 	
+	
+	
 	public Optional<Student> findById(Integer id) {
 		return studentRepository.findById(id);
 	}
@@ -29,6 +32,10 @@ public class StudentService {
 	
 	public List<Student> findByPrezimeContainingIgnoreCase(String prezime) {
 		return studentRepository.findByPrezimeContainingIgnoreCase(prezime);
+	}
+	
+	public List<Student> findByBrojIndeksaContainingIgnoreCase(String brojIndeksa) {
+		return studentRepository.findByBrojIndeksaContainingIgnoreCase(brojIndeksa);
 	}
 	
 	public Student save(Student student) {

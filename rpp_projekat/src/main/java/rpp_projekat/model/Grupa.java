@@ -18,6 +18,8 @@ public class Grupa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="GRUPA_ID_GENERATOR", sequenceName="GRUPA_SEQ", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="GRUPA_ID_GENERATOR")
 	private Integer id;
 
 	private String oznaka;
@@ -28,8 +30,9 @@ public class Grupa implements Serializable {
 	private Smer smer;
 
 	//bi-directional many-to-one association to Student
-	@OneToMany(mappedBy="grupa")
 	@JsonIgnore
+	@OneToMany(mappedBy="grupa", cascade = {CascadeType.ALL})
+	
 	private List<Student> students;
 
 	public Grupa() {

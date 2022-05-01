@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import rpp_projekat.model.Grupa;
 import rpp_projekat.model.Student;
+import rpp_projekat.service.GrupaService;
 import rpp_projekat.service.StudentService;
 
 @RestController
@@ -24,12 +28,17 @@ public class StudentController {
 	@Autowired
 	private StudentService studentService;
 	
+	@Autowired
+	private JdbcTemplate jdbctemplate;
+	
+	@ApiOperation(value = "Returns list of all Students")
 	@GetMapping("student")
 	public ResponseEntity<List<Student>> getAll() {
 		List<Student> students = studentService.getAll();
 	return new ResponseEntity<>(students, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Returns Student with id that was forwarded as path variable.")
 	@GetMapping("student/{id}")
 	public ResponseEntity<Student> getOne(@PathVariable("id") Integer id) {
 		if (studentService.findById(id).isPresent()) {
@@ -40,18 +49,28 @@ public class StudentController {
 		}
 	}
 	
+	@ApiOperation(value = "Returns list of Students containing string that was forwarded as path variable in 'ime'.")
 	@GetMapping("student/ime/{ime}")
 	public ResponseEntity<List<Student>> getByIme(@PathVariable("ime") String ime) {
 			List<Student> students = studentService.findByImeContainingIgnoreCase(ime);
 		return new ResponseEntity<>(students, HttpStatus.OK);	
 	}
 	
+	@ApiOperation(value = "Returns list of Students containing string that was forwarded as path variable in 'prezime'.")
 	@GetMapping("student/prezime/{prezime}")
 	public ResponseEntity<List<Student>> getByPrezime(@PathVariable("prezime") String prezime) {
 			List<Student> students = studentService.findByPrezimeContainingIgnoreCase(prezime);
 		return new ResponseEntity<>(students, HttpStatus.OK);	
 	}
 	
+	@ApiOperation(value = "Returns list of Students containing string that was forwarded as path variable in 'brojIndeksa'.")
+	@GetMapping("student/brojIndeksa/{brojIndeksa}")
+	public ResponseEntity<List<Student>> getByBrojIndeksa(@PathVariable("brojIndeksa") String brojIndeksa) {
+			List<Student> students = studentService.findByBrojIndeksaContainingIgnoreCase(brojIndeksa);
+		return new ResponseEntity<>(students, HttpStatus.OK);	
+	}
+	
+	@ApiOperation(value = "Adds new Student to database.")
 	@PostMapping("student")
 	public ResponseEntity<Student> addStudent(@RequestBody Student student) {
 		Student savedStudent = studentService.save(student);
@@ -59,6 +78,7 @@ public class StudentController {
 		return ResponseEntity.created(location).body(savedStudent);
 	}
 	
+	@ApiOperation(value = "Updates Student that has id that was forwarded as path variable with values forwarded in Request Body.")
 	@PutMapping(value = "student/{id}")
 	public ResponseEntity<Student> updateStudent(@RequestBody Student student, @PathVariable("id") Integer id) {
 		if (studentService.existsById(id)) {
@@ -69,6 +89,7 @@ public class StudentController {
 	    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
+	@ApiOperation(value = "Deletes Student with id that was forwarded as path variable.")
 	@DeleteMapping("student/{id}")
 	public ResponseEntity<HttpStatus> delete(@PathVariable Integer id) {
 		if (studentService.existsById(id)) {

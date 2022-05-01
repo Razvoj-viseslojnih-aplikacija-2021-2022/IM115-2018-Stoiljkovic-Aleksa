@@ -18,6 +18,8 @@ public class Smer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="SMER_ID_GENERATOR", sequenceName="SMER_SEQ", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SMER_ID_GENERATOR")
 	private Integer id;
 
 	private String naziv;
@@ -25,8 +27,9 @@ public class Smer implements Serializable {
 	private String oznaka;
 
 	//bi-directional many-to-one association to Grupa
-	@OneToMany(mappedBy="smer")
 	@JsonIgnore
+	@OneToMany(mappedBy="smer", cascade = {CascadeType.ALL})
+	
 	private List<Grupa> grupas;
 
 	public Smer() {
