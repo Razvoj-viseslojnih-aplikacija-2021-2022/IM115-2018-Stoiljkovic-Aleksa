@@ -73,20 +73,30 @@ public class StudentController {
 	@ApiOperation(value = "Adds new Student to database.")
 	@PostMapping("student")
 	public ResponseEntity<Student> addStudent(@RequestBody Student student) {
+		//Student savedStudent = studentService.save(student);
+	    //URI location = URI.create("/student/" + savedStudent.getId());
+		//return ResponseEntity.created(location).body(savedStudent);
+		if(!studentService.existsById(student.getGrupa().getId())) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		Student savedStudent = studentService.save(student);
-	    URI location = URI.create("/student/" + savedStudent.getId());
+		URI location = URI.create("/student/" + savedStudent.getId());
 		return ResponseEntity.created(location).body(savedStudent);
 	}
 	
 	@ApiOperation(value = "Updates Student that has id that was forwarded as path variable with values forwarded in Request Body.")
 	@PutMapping(value = "student/{id}")
 	public ResponseEntity<Student> updateStudent(@RequestBody Student student, @PathVariable("id") Integer id) {
-		if (studentService.existsById(id)) {
-			student.setId(id);
-			Student savedStudent = studentService.save(student);
-			return ResponseEntity.ok().body(savedStudent);
+		if (!studentService.existsById(id)) {
+			//student.setId(id);
+			//Student savedStudent = studentService.save(student);
+			//return ResponseEntity.ok().body(savedStudent);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-	    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		student.setId(id);
+		Student savedStudent = studentService.save(student);
+		return ResponseEntity.ok().body(savedStudent);
+		//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	@ApiOperation(value = "Deletes Student with id that was forwarded as path variable.")
@@ -97,6 +107,7 @@ public class StudentController {
 	        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}
 		return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		
 	}
 	
 	

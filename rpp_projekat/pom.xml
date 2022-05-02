@@ -13,7 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>RPP</name>
 	<description>Demo project for Spring Boot</description>
-	<properties>
+	<properties>        	
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
@@ -25,7 +25,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -36,6 +35,11 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+    		<groupId>org.hibernate</groupId>
+    		<artifactId>hibernate-core</artifactId>
+    		<version>5.6.5.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>

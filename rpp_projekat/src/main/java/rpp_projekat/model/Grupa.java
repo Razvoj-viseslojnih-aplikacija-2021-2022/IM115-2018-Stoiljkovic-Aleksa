@@ -25,6 +25,7 @@ public class Grupa implements Serializable {
 	private String oznaka;
 
 	//bi-directional many-to-one association to Smer
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="smer")
 	private Smer smer;

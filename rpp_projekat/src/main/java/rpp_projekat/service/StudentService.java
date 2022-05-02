@@ -20,8 +20,6 @@ public class StudentService {
 		return studentRepository.findAll();
 	}
 	
-	
-	
 	public Optional<Student> findById(Integer id) {
 		return studentRepository.findById(id);
 	}

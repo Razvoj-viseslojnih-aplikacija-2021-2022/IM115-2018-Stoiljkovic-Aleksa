@@ -3,6 +3,8 @@ package rpp_projekat.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * The persistent class for the student database table.
@@ -29,11 +31,13 @@ public class Student implements Serializable {
 	private String prezime;
 
 	//bi-directional many-to-one association to Grupa
+	//@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="grupa")
 	private Grupa grupa;
 
 	//bi-directional many-to-one association to Projekat
+	//@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="projekat")
 	private Projekat projekat;
