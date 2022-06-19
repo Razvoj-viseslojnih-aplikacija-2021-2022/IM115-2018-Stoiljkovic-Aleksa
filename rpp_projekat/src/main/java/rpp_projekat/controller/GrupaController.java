@@ -22,7 +22,9 @@ import rpp_projekat.model.Student;
 import rpp_projekat.service.GrupaService;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin
 @RestController
 public class GrupaController {
 	
