@@ -20,6 +20,10 @@ public class StudentService {
 		return studentRepository.findAll();
 	}
 	
+	public List<Student> findByGrupa(Grupa grupa) {
+		return studentRepository.findByGrupa(grupa);
+	}
+	
 	public Optional<Student> findById(Integer id) {
 		return studentRepository.findById(id);
 	}

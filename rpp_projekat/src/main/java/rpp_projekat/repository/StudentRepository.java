@@ -16,5 +16,7 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
 	
 	List<Student> findByBrojIndeksaContainingIgnoreCase(String brojIndeksa);
 	
+	List<Student> findByGrupa(Grupa grupa);
+	
 
 }

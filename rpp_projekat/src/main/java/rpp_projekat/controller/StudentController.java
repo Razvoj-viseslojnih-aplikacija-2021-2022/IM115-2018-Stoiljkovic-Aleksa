@@ -31,6 +31,9 @@ public class StudentController {
 	private StudentService studentService;
 	
 	@Autowired
+	private GrupaService grupaService;
+	
+	@Autowired
 	private JdbcTemplate jdbctemplate;
 	
 	@ApiOperation(value = "Returns list of all Students")
@@ -49,6 +52,17 @@ public class StudentController {
 		} else {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@ApiOperation(value = "Returns list of Students for Grupa with id that was forwarded as path variable.")
+	@GetMapping("studentiGrupe/{id}")
+	public ResponseEntity<List<Student>> getAllForGrupa(@PathVariable("id") Integer id) {
+		Optional<Grupa> grupaOpt = grupaService.findById(id);
+		if(grupaOpt.isPresent()) {
+			List<Student> students = studentService.findByGrupa(grupaOpt.get());
+			return new ResponseEntity<>(students, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	}
 	
 	@ApiOperation(value = "Returns list of Students containing string that was forwarded as path variable in 'ime'.")
