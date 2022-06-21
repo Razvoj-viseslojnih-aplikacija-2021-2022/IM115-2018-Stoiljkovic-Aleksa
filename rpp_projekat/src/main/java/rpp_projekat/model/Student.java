@@ -12,7 +12,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name="student")
-@NamedQuery(name="Student.findAll", query="SELECT s FROM Student s")
+@NamedQuery(name="Student.findAll", 
+							query="SELECT s "
+									+ "FROM Student s")
 public class Student implements Serializable {
 	private static final long serialVersionUID = 1L;
 
